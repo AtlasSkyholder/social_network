@@ -99,7 +99,7 @@ const printAll = function(c) { //prints all the people, who they follow and thei
     objPpl[nms] = buildPop(person, flws, list);
   }
   return objPpl;
-}
+};
 
 const buildPop = function(name, arr, d){ //builds the object that contains follows and followers for a person
   let pop = {};
@@ -108,7 +108,7 @@ const buildPop = function(name, arr, d){ //builds the object that contains follo
   let fllwers = buildFllw(name, d);
   pop["followers"] = fllwers;
   return pop;
-}
+};
 
 const buildFll = function(arr,d) { // build array of follows
   let names = [];
@@ -121,7 +121,7 @@ const buildFll = function(arr,d) { // build array of follows
     }
   }
   return names;
-}
+};
 
 const buildFllw = function(name, d) { // build array of followers
   let names = [];
@@ -135,9 +135,46 @@ const buildFllw = function(name, d) { // build array of followers
     }
   }
   return names;
-}
+};
+
+const unrequitedFollowers = function(e){  // builds the object containing the people and the other that don't follow them
+  let list = e;
+  let objUnp = {};
+  for (let person in list) {
+    let ind = list[person];
+    let nms = ind["name"];
+    objUnp[nms] = buildUnp(person, list);
+  }
+  return objUnp;
+};
+
+const buildUnp = function(person , e) {  //builds the list of unfollowers + the object unfollowed, then returns it to the name of the person
+  let names = [];
+  let list = e;
+  let unflObj = {};
+  let unflList = {};
+  let tempName = list[person];
+  let name = person;
+  for (let person in list) {
+    let ind = list[person];
+    let nm = ind["name"];
+    let unfl = ind["follows"];
+    if (unfl.includes(name)) {
+      continue;
+    } else {
+      names.push(nm);
+    }
+  }
+  if (names.includes(tempName['name'])) {  // person can't self follow, but shouldnt be part of the array, this removes it
+    let spot = names.indexOf(tempName['name']);
+    names.splice(spot, 1);
+  }
+  unflList["unfollowed"] = names;
+  unflObj[tempName] = unflList; //unfortunately here it changes the object, i need to fix this.
+  return names;
+};
 
 //console.log(biggestFollower(data));
 //console.log(mostPopular(data));
-console.log(printAll(data));
-//console.log(data[1]);
+//console.log(printAll(data));
+console.log(unrequitedFollowers(data));
