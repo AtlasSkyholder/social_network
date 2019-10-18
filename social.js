@@ -89,5 +89,15 @@ const findPop = function(arrList) {
   return mostPop;
 };
 
+const printAll = function(c) {
+  let list = c;
+  for (let person in list) {
+    let ind = list[person];
+    let flws = ind["follows"];
+    
+  }
+}
+
 //console.log(biggestFollower(data));
-console.log(mostPopular(data));
+//console.log(mostPopular(data));
+console.log(printAll(data));
